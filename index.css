@@ -43,6 +43,14 @@ img.small-icon {
     font-size: 12px;
 }
 
+.winner {
+    color: rgb(12, 175, 34);
+}
+
+.lose {
+    color: rgb(255, 98, 98);
+}
+
 /* normal table css */
 /* normal table css */
 table {
