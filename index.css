@@ -1,0 +1,109 @@
+#header {
+    text-align: center;
+    background: #000;
+    color: #FFF;
+    font-size: 50px;
+    line-height: 57px;
+}
+
+#header img {
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+#mainBody {
+    padding: 20px;
+}
+
+input#page {
+    width: 30px;
+}
+
+.search-bar {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.table {
+    margin: 0 auto;
+    font-size: 14px;
+}
+
+img.small-icon {
+    width: 35px;
+    height: 35px;
+}
+
+.second-client-id a {
+    text-decoration-line: none;
+    /* color: #000; */
+}
+
+.vs {
+    color: rgb(255, 98, 98);
+}
+
+/* normal table css */
+/* normal table css */
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+table tr td,
+table tr th {
+    border: 1px solid black;
+}
+
+table tr:nth-child(even) {
+    background-color: #d0aaaa;
+}
+
+/* rwd table css */
+.rwd-table {
+    overflow: hidden;
+}
+
+.rwd-table {
+    min-width: 80%;
+}
+
+.rwd-table th {
+    display: none;
+}
+
+.rwd-table td {
+    display: block;
+}
+
+.rwd-table td:after {
+    content: attr(data-th);
+    display: inline-block;
+}
+
+.first-client-id {
+    word-break: break-all;
+}
+
+
+.rwd-table tr {
+    margin-bottom: 5px;
+    display: inline-block;
+    width: 100%;
+}
+
+@media (min-width: 583px) {
+    .rwd-table td:after {
+        display: none;
+    }
+
+    .rwd-table th,
+    .rwd-table td {
+        display: table-cell;
+    }
+
+    .rwd-table tr {
+        margin-bottom: 0px;
+        display: table-row;
+    }
+}

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./normal.css">
+    <link rel="stylesheet" href="./index.css">
+    <script src="./jquery-3.6.0.min.js"></script>
+</head>
+    <div id="header">
+        Axie
+        <img src="https://cdn.axieinfinity.com/game/icon.png" alt="Axie" width="50">
+    </div>
+    <div id="mainBody">
+        <div class="search-bar">
+            <label for="page">頁數</label> 
+            <input type="text" value="1" id="page">
+            <label for="count">筆數</label> 
+            <select id="count">
+                <option value="20">20</option>
+                <option value="50">50</option>
+                <option value="100">100</option>
+                <option value="200">200</option>
+            </select>
+            <button id="search">搜尋</button>
+            <button id="next">下一頁</button>
+            <button id="pre">上一頁</button>
+        </div>
+        <table class="table rwd-table">
+            <thead>
+                <th width="150">開始時間</th>
+                <th width="50">種類</th>
+                <th width="80">輸/贏</th>
+                <th width="50">OpponetName</th>
+                <th width="200">對戰狀況</th>
+                <th>立即觀看</th>
+            </thead>
+            <tbody class="tbody" style="text-align: center;"></tbody>
+        </table>
+    </div>
+    
+<body>
+<script>
+    var serialize = function(obj) {
+        var str = [];
+        for (var p in obj)
+            if (obj.hasOwnProperty(p)) {
+            str.push(encodeURIComponent(p) + "=" + encodeURIComponent(obj[p]));
+            }
+        return str.join("&");
+    }
+
+    $("#search").on("click", function() {
+        var apiUrl = "https://game-api.skymavis.com/game-api/clients/0xa37b0a7d15b623860a9405ea6c8fd883f9dd57b5/battles"
+        var parms = {
+            offset: $("#count").val() * ($("#page").val() - 1),
+            limit: $("#count").val()
+        }
+
+        $.ajax({
+            url: apiUrl + "?" + serialize(parms),
+        }).done(function(res) {
+            if (!res.success) {
+                alert("資料錯誤，請確認apiUrl是否正確");
+            }
+            var gameList = res.items;
+            if (!gameList.length) {
+                alert("無對戰紀錄");
+            }
+            $(".tbody").empty();
+            var tableData;
+            var tableDataArr = [];
+
+            gameList.forEach(item => {
+                var tableDataTr = $("<tr>", {}).appendTo($(".tbody"));
+                var fileds = {
+                    "created-at": item.created_at,
+                    "battle-type": item.battle_type === 1 ? "PVP" : "PVE",
+                    "winner": item.winner ? "<span class='lose'>Lose</span>" : "<span class='win'>Win</span>",
+                    "first-client-id": item.first_client_id,
+                    "fighters": item.fighters,
+                    // "second-client-id": "axie://?f=rpl&q=" + item.second_client_id
+                    "second-client-id": "https://cdn.axieinfinity.com/game/deeplink.html?f=rpl&q=" + item.battle_uuid
+                }
+
+                Object.keys(fileds).forEach((filed) => {
+                    tableDataTd = $("<td>", { class: filed });
+                    if (filed === "fighters") {
+                        var team_id = '';
+                        var firstDiv = $("<div>");
+                        var secondDev = $("<div>");
+                        fileds[filed].forEach((fighter, index) => {
+                            var fighterImg = $("<img>", {
+                                class: "small-icon",
+                                src: "https://storage.googleapis.com/assets.axieinfinity.com/axies/" + fighter.fighter_id + "/axie/axie-full-transparent.png",
+                                alt: fighter.fighter_class,
+                                title: fighter.fighter_class,
+                            })
+
+                            if (index < 3) {
+                                firstDiv.append(fighterImg)
+                            } else {
+                                secondDev.append(fighterImg);
+                            }
+                            team_id = fighter.team_id;
+                        })
+                        tableDataTd.append(firstDiv);
+                        tableDataTd.append($("<div class='vs'>vs</div>"));
+                        tableDataTd.append(secondDev);
+                        tableDataTd.appendTo(tableDataTr);
+
+                        return;
+                    }
+                    if (filed === "second-client-id") {
+                        var link = $("<a>", {
+                            href: fileds[filed]
+                        })
+                        link.text("立即觀看");
+                        tableDataTd.append(link)
+                        tableDataTd.appendTo(tableDataTr);
+
+                        return;
+                    }
+                    tableDataTd.append(fileds[filed]);
+                    tableDataTd.appendTo(tableDataTr);
+                })
+            });
+        })
+    })
+
+    $("#search").click();
+    
+    $("#next").on("click", function() {
+        var pageIndex = Number($("#page").val());
+        $("#page").val(pageIndex + 1);
+        $("#search").click();
+    });
+
+    $("#pre").on("click", function() {
+        var pageIndex = Number($("#page").val());
+        var chagePage = pageIndex - 1;
+        if (chagePage < 1) {
+            chagePage = 1;
+        }
+        $("#page").val(chagePage);
+        $("#search").click();
+    });
+</script>
+</body>
+</html>
