@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Axie</title>
     <link rel="stylesheet" href="./normal.css">
-    <link rel="stylesheet" href="./index.css">
+    <link rel="stylesheet" href="./index.css?v=1">
     <script src="./jquery-3.6.0.min.js"></script>
 </head>
     <div id="header">
@@ -25,7 +25,6 @@
                 <option value="20">20</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
-                <option value="200">200</option>
             </select>
             <button id="search">搜尋</button>
             <button id="next">下一頁</button>
@@ -100,7 +99,6 @@
 
                 Object.keys(fileds).forEach((filed) => {
                     tableDataTd = $("<td>", { class: filed });
-                        // console.log(fileds, 'fileds')
                     if (filed === "created-at") {
                         tableDataTd.append(setDateTime(fileds[filed]));
                         tableDataTd.appendTo(tableDataTr);
