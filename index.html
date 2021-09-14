@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>A</title>
     <link rel="stylesheet" href="./normal.css">
     <link rel="stylesheet" href="./index.css">
     <script src="./jquery-3.6.0.min.js"></script>
@@ -15,10 +15,13 @@
     </div>
     <div id="mainBody">
         <div class="search-bar">
+            <label for="address">玩家地址</label> 
+            <input type="text" id="address">
             <label for="page">頁數</label> 
             <input type="text" value="1" id="page">
             <label for="count">筆數</label> 
             <select id="count">
+                <option value="10">10</option>
                 <option value="20">20</option>
                 <option value="50">50</option>
                 <option value="100">100</option>
@@ -52,11 +55,22 @@
         return str.join("&");
     }
 
+    var setDateTime = function(fnTime) {
+        var x = fnTime;
+        var time = new Date(x);
+        var timeNum = 8;
+        time.setHours(time.getHours() + timeNum);
+        return time;
+    }
+
     $("#search").on("click", function() {
-        var apiUrl = "https://game-api.skymavis.com/game-api/clients/0xa37b0a7d15b623860a9405ea6c8fd883f9dd57b5/battles"
+        // 0xa37b0a7d15b623860a9405ea6c8fd883f9dd57b5
+        var address = $("#address").val();
+        var apiUrl = "https://game-api.skymavis.com/game-api/clients/"+ address +"/battles"
         var parms = {
             offset: $("#count").val() * ($("#page").val() - 1),
-            limit: $("#count").val()
+            limit: $("#count").val(),
+            battle_type: 0
         }
 
         $.ajax({
@@ -77,16 +91,21 @@
                 var tableDataTr = $("<tr>", {}).appendTo($(".tbody"));
                 var fileds = {
                     "created-at": item.created_at,
-                    "battle-type": item.battle_type === 1 ? "PVP" : "PVE",
-                    "winner": item.winner ? "<span class='lose'>Lose</span>" : "<span class='win'>Win</span>",
+                    "battle-type": item.battle_type === 1 ?  "PVE" : "PVP",
+                    "winner": item.winner ?  "<span class='win'>Win</span>" : "<span class='lose'>Lose</span>",
                     "first-client-id": item.first_client_id,
                     "fighters": item.fighters,
-                    // "second-client-id": "axie://?f=rpl&q=" + item.second_client_id
                     "second-client-id": "https://cdn.axieinfinity.com/game/deeplink.html?f=rpl&q=" + item.battle_uuid
                 }
 
                 Object.keys(fileds).forEach((filed) => {
                     tableDataTd = $("<td>", { class: filed });
+                        // console.log(fileds, 'fileds')
+                    if (filed === "created-at") {
+                        tableDataTd.append(setDateTime(fileds[filed]));
+                        tableDataTd.appendTo(tableDataTr);
+                        return
+                    }
                     if (filed === "fighters") {
                         var team_id = '';
                         var firstDiv = $("<div>");
@@ -130,7 +149,7 @@
         })
     })
 
-    $("#search").click();
+    // $("#search").click();
     
     $("#next").on("click", function() {
         var pageIndex = Number($("#page").val());
@@ -147,6 +166,18 @@
         $("#page").val(chagePage);
         $("#search").click();
     });
+
+    $('#mainBody').keypress(function (e) {
+        var key = e.which;
+        console.log(key, "key")
+        switch (key) {
+            case 13:
+                $("#search").click();
+                break;
+            default:
+                break;
+        }
+    });   
 </script>
 </body>
 </html>

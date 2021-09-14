@@ -30,17 +30,17 @@ input#page {
 }
 
 img.small-icon {
-    width: 35px;
-    height: 35px;
+    width: 50px;
+    height: 50px;
 }
 
 .second-client-id a {
     text-decoration-line: none;
-    /* color: #000; */
 }
 
 .vs {
     color: rgb(255, 98, 98);
+    font-size: 12px;
 }
 
 /* normal table css */
