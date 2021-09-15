@@ -75,7 +75,7 @@
     var winnerMethod = function(winner, item) {
         var isMaster = $("#address").val() === item.first_client_id;
 
-        if (isMaster) {
+        if (!isMaster) {
             switch (winner) {
                 case 0:
                     return "<span class='lose'>Lose</span>";
@@ -84,7 +84,7 @@
                     return "<span class='win'>Win</span>"
                     break;
                 case 2:
-                    return "<span>Tie</span>"
+                    return "<span>DRAW</span>"
                     break;
                 default:
                     break;
@@ -98,13 +98,13 @@
                     return "<span class='lose'>Lose</span>";
                     break;
                 case 2:
-                    return "<span>Tie</span>"
+                    return "<span>DRAW</span>"
                     break;
                 default:
                     break;
             }
         }
-       
+
         return ""
     }
     var seachMethod = function() {
@@ -202,7 +202,6 @@
 
         e.stopPropagation();
         // e.preventDefault();
-      
     })
 
     // seachMethod()
