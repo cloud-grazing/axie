@@ -59,12 +59,17 @@
         return str.join("&");
     }
 
+    var formatDate = (current_datetime)=>{
+        var formatted_date = current_datetime.getFullYear() + "-" + (current_datetime.getMonth() + 1) + "-" + current_datetime.getDate() + " " + current_datetime.getHours() + ":" + current_datetime.getMinutes() + ":" + current_datetime.getSeconds();
+        return formatted_date;
+    }
+
     var setDateTime = function(fnTime) {
         var x = fnTime;
         var time = new Date(x);
         var timeNum = 8;
         time.setHours(time.getHours() + timeNum);
-        return time;
+        return formatDate(time);
     }
     var seachMethod = function() {
           // 0xa37b0a7d15b623860a9405ea6c8fd883f9dd57b5
