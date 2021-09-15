@@ -36,10 +36,11 @@
         </div>
         <table class="table rwd-table">
             <thead>
-                <th width="150">開始時間</th>
+                <th width="100">開始時間</th>
                 <th width="50">種類</th>
                 <th width="80">輸/贏</th>
                 <th width="100">OpponetName</th>
+                <th width="100">隊伍(主/客)</th>
                 <th width="250">對戰狀況</th>
                 <th width="100">立即觀看</th>
             </thead>
@@ -101,6 +102,7 @@
                     "battle-type": item.battle_type === 1 ?  "PVE" : "PVP",
                     "winner": item.winner ?  "<span class='win'>Win</span>" : "<span class='lose'>Lose</span>",
                     "first-client-id": item.first_client_id,
+                    "team": {first_team_id: item.first_team_id , second_team_id: item.second_team_id},
                     "fighters": item.fighters,
                     "second-client-id": "https://cdn.axieinfinity.com/game/deeplink.html?f=rpl&q=" + item.battle_uuid
                 }
@@ -109,6 +111,11 @@
                     tableDataTd = $("<td>", { class: filed });
                     if (filed === "created-at") {
                         tableDataTd.append(setDateTime(fileds[filed]));
+                        tableDataTd.appendTo(tableDataTr);
+                        return
+                    }
+                    if (filed === "team") {
+                        tableDataTd.append("<div>主：" + fileds[filed]["first_team_id"] + "</div><div class='vs'>vs</div><div>客：" + fileds[filed]["second_team_id"] + "</div>");
                         tableDataTd.appendTo(tableDataTr);
                         return
                     }
