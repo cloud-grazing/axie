@@ -17,7 +17,7 @@
         <div class="search-bar">
             <form>
                 <label for="address">玩家地址</label> 
-                <input type="text" id="address" autocomplete="on" name="address">
+                <input type="text" id="address" name="address" autocomplete="on">
                 <label for="page">頁數</label> 
                 <input type="text" value="1" id="page">
                 <label for="count">筆數</label> 
@@ -48,6 +48,7 @@
     
 <body>
 <script>
+    console.log(location)
     var serialize = function(obj) {
         var str = [];
         for (var p in obj)
@@ -64,10 +65,8 @@
         time.setHours(time.getHours() + timeNum);
         return time;
     }
-
-    $("#search").on("click", function(e) {
-        e.preventDefault();
-        // 0xa37b0a7d15b623860a9405ea6c8fd883f9dd57b5
+    var seachMethod = function() {
+          // 0xa37b0a7d15b623860a9405ea6c8fd883f9dd57b5
         var address = $("#address").val();
         var apiUrl = "https://game-api.skymavis.com/game-api/clients/"+ address +"/battles"
         var parms = {
@@ -149,16 +148,23 @@
                 })
             });
         })
+    }
+
+    $("#search").on("click", function(e) {
+
+        e.stopPropagation();
+        // e.preventDefault();
+      
     })
 
-    // $("#search").click();
+    // seachMethod()
     
     $("#next").on("click", function(e) {
         e.stopPropagation();
         e.preventDefault();
         var pageIndex = Number($("#page").val());
         $("#page").val(pageIndex + 1);
-        $("#search").click();
+        seachMethod()
     });
 
     $("#pre").on("click", function(e) {
@@ -170,7 +176,7 @@
             chagePage = 1;
         }
         $("#page").val(chagePage);
-        $("#search").click();
+        seachMethod()
     });
 
     $('#mainBody').keypress(function (e) {
@@ -178,12 +184,17 @@
         console.log(key, "key")
         switch (key) {
             case 13:
-                $("#search").click();
+                seachMethod()
                 break;
             default:
                 break;
         }
-    });   
+    });
+    var address = (new URLSearchParams(location.search)).get("address");
+    $("#address").val(address);
+    if (address) {
+        seachMethod()
+    }
 </script>
 </body>
 </html>
