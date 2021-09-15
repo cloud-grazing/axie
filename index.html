@@ -71,6 +71,42 @@
         time.setHours(time.getHours() + timeNum);
         return formatDate(time);
     }
+
+    var winnerMethod = function(winner, item) {
+        var isMaster = $("#address").val() === item.first_client_id;
+
+        if (isMaster) {
+            switch (winner) {
+                case 0:
+                    return "<span class='lose'>Lose</span>";
+                    break;
+                case 1:
+                    return "<span class='win'>Win</span>"
+                    break;
+                case 2:
+                    return "<span>Tie</span>"
+                    break;
+                default:
+                    break;
+            }
+        } else {
+            switch (winner) {
+                case 0:
+                    return "<span class='win'>Win</span>"
+                    break;
+                case 1:
+                    return "<span class='lose'>Lose</span>";
+                    break;
+                case 2:
+                    return "<span>Tie</span>"
+                    break;
+                default:
+                    break;
+            }
+        }
+       
+        return ""
+    }
     var seachMethod = function() {
           // 0xa37b0a7d15b623860a9405ea6c8fd883f9dd57b5
         var address = $("#address").val();
@@ -100,7 +136,7 @@
                 var fileds = {
                     "created-at": item.created_at,
                     "battle-type": item.battle_type === 1 ?  "PVE" : "PVP",
-                    "winner": item.winner ?  "<span class='win'>Win</span>" : "<span class='lose'>Lose</span>",
+                    "winner": winnerMethod(item.winner, item),
                     "client-id": $("#address").val() === item.first_client_id ? item.second_client_id :  item.first_client_id,
                     "team": {first_team_id: item.first_team_id , second_team_id: item.second_team_id},
                     "fighters": item.fighters,
