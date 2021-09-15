@@ -101,10 +101,10 @@
                     "created-at": item.created_at,
                     "battle-type": item.battle_type === 1 ?  "PVE" : "PVP",
                     "winner": item.winner ?  "<span class='win'>Win</span>" : "<span class='lose'>Lose</span>",
-                    "first-client-id": item.first_client_id,
+                    "client-id": $("#address").val() === item.first_client_id ? item.second_client_id :  item.first_client_id,
                     "team": {first_team_id: item.first_team_id , second_team_id: item.second_team_id},
                     "fighters": item.fighters,
-                    "second-client-id": "https://cdn.axieinfinity.com/game/deeplink.html?f=rpl&q=" + item.battle_uuid
+                    "battle_uuid": "https://cdn.axieinfinity.com/game/deeplink.html?f=rpl&q=" + item.battle_uuid
                 }
 
                 Object.keys(fileds).forEach((filed) => {
@@ -145,7 +145,7 @@
 
                         return;
                     }
-                    if (filed === "second-client-id") {
+                    if (filed === "battle_uuid") {
                         var link = $("<a>", {
                             href: fileds[filed]
                         })

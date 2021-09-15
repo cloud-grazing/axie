@@ -34,7 +34,7 @@ img.small-icon {
     height: 60px;
 }
 
-.second-client-id a {
+.battle_uuid a {
     text-decoration-line: none;
 }
 
@@ -89,7 +89,7 @@ table tr:nth-child(even) {
     display: inline-block;
 }
 
-.first-client-id {
+.client-id {
     word-break: break-all;
 }
 
