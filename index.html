@@ -153,13 +153,17 @@
 
     // $("#search").click();
     
-    $("#next").on("click", function() {
+    $("#next").on("click", function(e) {
+        e.stopPropagation();
+        e.preventDefault();
         var pageIndex = Number($("#page").val());
         $("#page").val(pageIndex + 1);
         $("#search").click();
     });
 
-    $("#pre").on("click", function() {
+    $("#pre").on("click", function(e) {
+        e.stopPropagation();
+        e.preventDefault();
         var pageIndex = Number($("#page").val());
         var chagePage = pageIndex - 1;
         if (chagePage < 1) {
