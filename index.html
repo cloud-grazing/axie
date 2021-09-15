@@ -15,20 +15,23 @@
     </div>
     <div id="mainBody">
         <div class="search-bar">
-            <label for="address">玩家地址</label> 
-            <input type="text" id="address">
-            <label for="page">頁數</label> 
-            <input type="text" value="1" id="page">
-            <label for="count">筆數</label> 
-            <select id="count">
-                <option value="10">10</option>
-                <option value="20">20</option>
-                <option value="50">50</option>
-                <option value="100">100</option>
-            </select>
-            <button id="search">搜尋</button>
-            <button id="next">下一頁</button>
-            <button id="pre">上一頁</button>
+            <form>
+                <label for="address">玩家地址</label> 
+                <input type="text" id="address" autocomplete="on" name="address">
+                <label for="page">頁數</label> 
+                <input type="text" value="1" id="page">
+                <label for="count">筆數</label> 
+                <select id="count">
+                    <option value="10">10</option>
+                    <option value="20">20</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                <button id="search" type="submit">搜尋</button>
+                <button id="next">下一頁</button>
+                <button id="pre">上一頁</button>
+            </form>
+            
         </div>
         <table class="table rwd-table">
             <thead>
@@ -36,7 +39,7 @@
                 <th width="50">種類</th>
                 <th width="80">輸/贏</th>
                 <th width="100">OpponetName</th>
-                <th width="200">對戰狀況</th>
+                <th width="250">對戰狀況</th>
                 <th width="100">立即觀看</th>
             </thead>
             <tbody class="tbody" style="text-align: center;"></tbody>
@@ -62,7 +65,8 @@
         return time;
     }
 
-    $("#search").on("click", function() {
+    $("#search").on("click", function(e) {
+        e.preventDefault();
         // 0xa37b0a7d15b623860a9405ea6c8fd883f9dd57b5
         var address = $("#address").val();
         var apiUrl = "https://game-api.skymavis.com/game-api/clients/"+ address +"/battles"
